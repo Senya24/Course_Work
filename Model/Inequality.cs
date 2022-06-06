@@ -4,11 +4,14 @@ namespace Kursova.Model
 {
     public class Inequality
     {
-        public int A, B, C;
-        public double NormalFormC;
-        public string Operator;
-        public string NormalFormOperator { get; private set; }
-        public Range Range { get; private set; }
+      /// <summary>
+      ///  The central entity for this project. Represents inequalitiy and all its properties
+      /// </summary>
+        public int A, B, C; //Ax+B>C
+        public double NormalFormC;//x > NormalFormC
+        public string Operator; // >|<|>=|<=
+        public string NormalFormOperator { get; private set; } //differs from Operator when A<0
+        public Range Range { get; private set; }  // represented numeric range
 
         public Inequality(int a, int b, string Operator, int c)
         {

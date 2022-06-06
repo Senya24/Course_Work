@@ -5,9 +5,13 @@ namespace Kursova.Model
 {
     public class InequalitiesFactory
     {
+      /// <summary>
+      ///  The class that stores our inequalities and their sources
+      /// </summary>
         public static string[] Sources = new string[4];
         public static Inequality[] Inequalities;
 
+        // a method that analizes sources and gets inequalities
         public static void SetInequalities()
         {
             int inequalitiesAmount = 0;

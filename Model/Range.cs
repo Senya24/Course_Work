@@ -5,9 +5,13 @@ namespace Kursova.Model
 {
     public struct Range : INullable
     {
+      /// <summary>
+      /// A clas that represents a numerical range
+      /// </summary>
+
         public double? MinValue, MaxValue;
         public bool MinIsIncluded, MaxIsIncluded;
-        public bool IsNull { get; private set; }
+        public bool IsNull { get; private set; } // == true if range is invalid ond/or have no values
 
         public Range(double? min, double? max, bool minIsIncluded = false, bool maxIsIncluded = false)
         {
@@ -24,7 +28,7 @@ namespace Kursova.Model
                    (MaxValue is null ? "+inf" : MaxValue) + (MaxIsIncluded ? "]" : ")");
         }
 
-        public static Range operator &(Range range1, Range range2)
+        public static Range operator &(Range range1, Range range2) // range intersection operator: returns a range, that represents values, which are common for both passed ranges
         {
             if ((range1.MaxValue ?? Double.MaxValue) < (range2.MinValue ?? Double.MinValue)
                 || (range2.MaxValue ?? Double.MaxValue) < (range1.MinValue ?? Double.MinValue))
@@ -40,7 +44,7 @@ namespace Kursova.Model
             return range1;
         }
 
-        private static (double?, bool) GetNewRangeMax(Range range1, Range range2)
+        private static (double?, bool) GetNewRangeMax(Range range1, Range range2) // returns a right boundary of intersection and its inclusivity
         {
             if ((range1.MaxValue??Double.MaxValue) == (range2.MaxValue??Double.MaxValue))
                 return (range1.MaxValue, range1.MaxIsIncluded && range2.MaxIsIncluded);
@@ -48,8 +52,8 @@ namespace Kursova.Model
                 return (range1.MaxValue, range1.MaxIsIncluded);
             return (range2.MaxValue, range2.MaxIsIncluded);
         }
-        
-        private static (double?, bool) GetNewRangeMin(Range range1, Range range2)
+
+        private static (double?, bool) GetNewRangeMin(Range range1, Range range2) // returns a left boundary of intersection and its inclusivity
         {
             if ((range1.MinValue??Double.MinValue) == (range2.MinValue??Double.MinValue))
                 return (range1.MinValue, range1.MinIsIncluded && range2.MinIsIncluded);
